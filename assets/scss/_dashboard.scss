@@ -1,0 +1,37 @@
+@import "./helpers/grid"; //RWD
+
+$primary:   #f9cd25;
+$secondary:  #CED3D3;
+$info:       #AAAAAA;
+$dark:       #000000;//#5E5E5E;
+$white:     #ffffff;
+$bg-color: #003D79;
+$primaryLight: #FFE66F;
+
+// body,button, input,select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family:Microsoft JhengHei,'宋體',Tahoma,Helvetica,Arial,"\5b8b\4f53", sans-serif;}
+body {
+  font-size: .875rem;
+}
+html,
+body {
+  font-family: arial, "Microsoft JhengHei", "微軟正黑體", sans-serif !important;
+  margin: 0;
+}
+
+/*
+ * Content
+ */
+// 抓到 Dashboard main標籤
+[role="main"] {
+  padding-top: 70px; /* Space for fixed navbar */
+}
+@include pad() {
+  [role="main"] {
+    padding-top: 75px; /* Space for fixed navbar */
+  }
+}
+// @media (min-width: 768px) {
+//   [role="main"] {
+//     padding-top: 48px; /* Space for fixed navbar */
+//   }
+// }
