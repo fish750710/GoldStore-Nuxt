@@ -300,7 +300,7 @@ export default {
   justify-content: center;
   align-items: center;
   .card-box{
-    width: 40%;
+    max-width: 350px;
     height: 25%;
     background-color: #fff;
     border-radius: 0.2rem;

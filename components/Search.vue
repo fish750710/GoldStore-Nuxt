@@ -1,23 +1,21 @@
 <template>
   <div>
     <div class="search-box">
-      <input
-        type="search"
-        class=""
-        placeholder="搜尋.."
-        aria-label="搜尋"
-        v-model="searchValue"
-        @keyup.enter="searchProduct"
-      />
+      <input type="search" placeholder="搜尋.." aria-label="搜尋" v-model="searchValue" @keyup.enter="searchProduct"/>
       <div class="btn-box">
-        <button
-          type="button"
-          class="btn"
-          style="width: 36px;"
-          @click="searchProduct"
-        >
+        <button type="button" class="btn" style="width: 36px;" @click="searchProduct">
           <i class="fas fa-search fa-lg"></i>
         </button>
+      </div>
+    </div>
+     <div class="search-box-m">
+      <div class="btn-box">
+        <button type="button" class="btn" style="width: 36px;" @click="btnSearch">
+          <i class="fas fa-search fa-lg"></i>
+        </button>
+      </div>
+      <div class="input-box-m" v-show="searchBtn" @click.stop="btnSearch">
+        <input type="search" placeholder="搜尋.." aria-label="搜尋" v-model="searchValue" @keyup.enter="searchProduct" v-on:click.stop/>
       </div>
     </div>
   </div>
@@ -27,19 +25,24 @@
 export default {
   data () {
     return {
-      searchValue: ''
+      searchValue: '',
+      searchBtn: false
     }
   },
   methods: {
     searchProduct () {
       const str = this.searchValue
+      this.searchBtn = false
       this.$nuxt.$router.push({name:'ProductsSearch', query:{sch:'Search',Str:str}})
       this.$nuxt.$emit('search')
       if (str.trim() === '') {
         this.$nuxt.$emit('messsage:push', `請輸入商品名稱`, 'danger')
       }
       this.searchValue = ''
-    }
+    },
+    btnSearch (){
+      this.searchBtn = !this.searchBtn
+    },
   }
 }
 </script>
@@ -64,6 +67,41 @@ export default {
       cursor: pointer;
       background-color: $bg-color;
       color: $primary;
+    }
+  }
+}
+.search-box-m{
+  display: none;
+}
+@include pad{
+  .search-box{
+    display: none;
+  }
+  .search-box-m{
+    display: block;
+    position: relative;
+    .input-box-m{
+      width: 100vw;
+      height: 100vh;
+      // background: red;
+      position: absolute;
+      top: 40px;
+      right: -647%;
+      z-index: 1200;
+    }
+    input{
+      font-size: 22px;
+      z-index: 1201;
+    }
+    button{
+      padding: 5px;
+    }
+  }
+}
+@include iphone5{
+  .search-box-m{
+    input{
+      font-size: 18px;
     }
   }
 }

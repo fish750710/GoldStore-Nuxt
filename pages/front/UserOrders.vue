@@ -116,6 +116,9 @@ table{
   margin-top: 3rem;
 }
 @media (max-width: 736px) {
+  table{
+    margin-top: 0;
+  }
   .table-rwd {
     min-width: 100%;
   }
@@ -125,7 +128,7 @@ table{
   }
   /*讓tr變成區塊主要讓他有個區塊*/
   thead {
-    display: none;
+    // display: none;
   }
   .qty-rwd {
     display: inline-block;

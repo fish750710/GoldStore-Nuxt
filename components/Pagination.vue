@@ -4,7 +4,7 @@
         <li class="page-item" :class="{'disabled': !getpagin.has_pre}">
           <a
             class=""
-            href="#"
+            href="javascript:;"
             @click="getPage(getpagin.current_page - 1)"
           >上一頁</a>
         </li>
@@ -14,10 +14,10 @@
           v-for="(page) in getpagin.total_pages"
           :key="page"
         >
-          <a class="" href="#" @click="getPage(page)">{{page}}</a>
+          <a class="" href="javascript:;" @click="getPage(page)">{{page}}</a>
         </li>
         <li class="page-item" :class="{'disabled': !getpagin.has_next}">
-          <a class="" href="#" @click="getPage(getpagin.current_page + 1)">下一頁</a>
+          <a class="" href="javascript:;" @click="getPage(getpagin.current_page + 1)">下一頁</a>
         </li>
       </ul>
     </nav>

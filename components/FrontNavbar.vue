@@ -59,13 +59,13 @@
           <li class="nav-item ">
             <!-- 未登入 -->
             <div v-if="!successStatus">
-              <a href="#" class="menu-top" @click="openLogin">
+              <a href="javascript:;" class="menu-top" @click="openLogin">
                 <i class="far fa-user-circle userlogo"></i>
               </a>
             </div>
             <div v-else>
               <!-- 已登入 -->
-              <a href="#" class="menu-top" @click="dropdownUserMenu = !dropdownUserMenu">
+              <a href="javascript:;" class="menu-top" @click="dropdownUserMenu = !dropdownUserMenu">
                 <i class="fas fa-user-circle userlogo"></i>
               </a>
               <div class="dropdown" v-show="dropdownUserMenu">
@@ -74,10 +74,14 @@
                     <i class="far fa-address-book mr-1 user-list-icon-order"></i>
                     <span>查訂單</span>
                   </button>
-                  <!-- <button class="dropdown-item" type="button" @click="goProducts">
+                  <button class="dropdown-item" type="button" @click="goProducts">
                     <i class="fas fa-clipboard-list mr-1 user-list-icon-management"></i>
                     <span>管理商品</span>
-                  </button> -->
+                  </button>
+                   <button class="dropdown-item" type="button" @click="goCoupons">
+                    <i class="fas fa-ticket-alt pr-2"></i>
+                    <span>優惠卷</span>
+                  </button>
                   <button class="dropdown-item" type="button" @click="signout">
                     <i class="fas fa-sign-out-alt mr-1"></i>
                     <span>登出</span>
@@ -88,7 +92,7 @@
           </li>
            <li class="nav-item ">
             <a
-              href="#"
+              href="javascript:;"
               class="menu-top"
               @click="rightOption('favorite')"
             >
@@ -103,7 +107,7 @@
           </li>
           <li class="nav-item ">
             <a
-              href="#"
+              href="javascript:;"
               class="menu-top"
               @click="rightOption('carts')"
             >
@@ -118,25 +122,27 @@
         </ul>
         </no-ssr>
       </div>      
-      <div class=" menuButton">
-        <a href="#">
+      <div class="menuButton" @click="menuBtn" >
+        <a href="javascript:;">
           <span></span>
         </a>
       </div>
-      <ul class="menu nav justify-content-center text-center">
-        <li class="nav-item mt-2 menu-ul col-12 col-sm-12 col-md-12 p-0 m-0">
-          <!-- <a href="#" class="m-3 menuSidebar" @click="goDescription">產品介紹</a> -->
-          <nuxt-link to="/Description" class="menuSidebar">產品介紹</nuxt-link>
-        </li>
-        <li class="nav-item mt-2 menu-ul col-12 col-sm-12 col-md-12 p-0 m-0">
-          <!-- <a href="#" class="m-3 menuSidebar" @click="goSale">優惠活動</a> -->
-          <nuxt-link to="/Sale" class="menuSidebar">優惠活動</nuxt-link>
-        </li>
-        <li class="nav-item mt-2 menu-ul col-12 col-sm-12 col-md-12 p-0 m-0">
-          <!-- <a href="#" class="m-3 menuSidebar" @click="goIndex">購物商城</a> -->
-          <nuxt-link to="/" class="menuSidebar">購物商城</nuxt-link>
-        </li>
-      </ul>
+      <div class="menu-box-m" v-show="menuBox" @click="menuBtn">
+        <ul class="menu" >
+          <li class="nav-item menu-ul">
+            <!-- <a href="#" class="m-3 menuSidebar" @click="goDescription">產品介紹</a> -->
+            <nuxt-link to="/Description" class="menuSidebar">產品介紹</nuxt-link>
+          </li>
+          <li class="nav-item menu-ul">
+            <!-- <a href="#" class="m-3 menuSidebar" @click="goSale">優惠活動</a> -->
+            <nuxt-link to="/Sale" class="menuSidebar">優惠活動</nuxt-link>
+          </li>
+          <li class="nav-item menu-ul">
+            <!-- <a href="#" class="m-3 menuSidebar" @click="goIndex">購物商城</a> -->
+            <nuxt-link to="/" class="menuSidebar">購物商城</nuxt-link>
+          </li>
+        </ul>
+      </div>
     </nav>
     <div class="box"></div>
     <!-- Login Modal -->
@@ -148,6 +154,7 @@
           </button>
           
           <div class="form-group">
+            <validation-observer v-slot="{ invalid }">
             <form class="form-signin" @submit.prevent="signin">
               <div class="header-box">
                 <h1 class="title" v-if="!ischange">會員登入</h1>
@@ -166,7 +173,7 @@
                 >登入</button>
               </div>
               
-              <input
+              <!-- <input
                 type="email"
                 id="inputEmail"
                 name="email"
@@ -199,29 +206,36 @@
                 placeholder="再次確認密碼"
                 v-validate="'required'"
                 :class="{'is-invalid': errors.has('doublecheck')}"
-              />
-              <span class="text-danger" v-if="errors.has('doublecheck')">密碼必須輸入</span>
-              
+              /> -->
+              <!-- <span class="text-danger" v-if="errors.has('doublecheck')">密碼必須輸入</span> -->
+              <!-- <ValidationProvider rules="email" v-slot="{ errors }">
+                <input type="text" v-model="value">
+                <span>{{ errors[0] }}</span>
+              </ValidationProvider> -->
+              <ValidationProvider rules="required|email" v-slot="{errors, classes}">
+                <input id="email" type="email" name="email" v-model="user.username" class="form-control" :class="classes" placeholder="電子郵件">
+                <span class="text-danger">{{errors[0]}}</span>
+              </ValidationProvider>
+              <ValidationProvider rules="required" v-slot="{errors, classes}">
+                <input id="inputPassword" type="password" name="password" v-model="user.password" class="form-control mb-2" :class="classes" placeholder="密碼">
+                <span class="text-danger">{{errors[0]}}</span>
+              </ValidationProvider>
+              <ValidationProvider rules="required" v-slot="{errors, classes}">
+                <input id="checkPassword" v-if="ischange" type="password" name="check" v-model="user.dbpassword" class="form-control mb-2" :class="classes" placeholder="再次確認密碼">
+                <span class="text-danger">{{errors[0]}}</span>
+              </ValidationProvider>
               <div class="checkbox">
                 <label>
                   <input type="checkbox" value="remember-me" /> 記住我
                 </label>
-                <a href="#" class="text-decoration-none">忘記密碼</a>
+                <a href="javascript:;" class="text-decoration-none">忘記密碼</a>
               </div>
               <div v-if="!message.success" class="text-danger mb-3">{{ message.message }}</div>
-
-              <button
-                class="btn-submit"
-                type="submit"
-                @keyup.enter="signin()"
-                v-if="!ischange"
+              <button class="btn-submit" type="submit" @keyup.enter="signin()" v-if="!ischange" :disabled="invalid"
               >登入</button>
             </form>
-            <button
-              class="btn-submit"
-              @click.prevent="signup(user.password,user.dbpassword)"
-              v-if="ischange"
-            >我要註冊</button>
+            <button class="btn-submit" @click.prevent="signup(user.password,user.dbpassword)" v-if="ischange" :disabled="invalid">我要註冊</button>
+            </validation-observer>
             <div v-if="ischange" class="text-danger mt-3">{{ message }}</div>
             <hr />
             <div class="footer-box">
@@ -238,16 +252,13 @@
           
         </div>
       </div>
-    </no-ssr>
-  
+    </no-ssr>  
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 import Alert from '@/components/AlertMsg.vue'
-// import $ from 'jquery'
 import Search from '@/components/Search'
 
 export default {
@@ -298,6 +309,7 @@ export default {
       // searchValue: '',
       loginModel: false,
       dropdownUserMenu: false,
+      menuBox: false,
     }
   },
   methods: {
@@ -336,22 +348,21 @@ export default {
       // 對應config/dev.env.js檔案的環境變數
       const api = `${process.env.APIPATH}/admin/signin`
       const vm = this
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          this.$axios.post(api, vm.user).then(response => {
-            vm.message = response.data
-            if (response.data.success) {
-              vm.successStatus = true
-              // 登入成功跳轉首頁
-              this.loginModel = false;        
-              vm.issuccess()
-            } else {
-              vm.successStatus = false
-              vm.$nuxt.$emit('messsage:push', response.data.message, 'danger')
-            }
-          })
-        }
-      })
+        this.$axios.post(api, vm.user).then(response => {
+          vm.message = response.data
+          const expired = vm.message.expired
+          const token = vm.message.token
+          document.cookie = `token=${token};expired=${new Date(expired)}`
+          if (response.data.success) {
+            vm.successStatus = true
+            // 登入成功跳轉首頁
+            this.loginModel = false;        
+            vm.issuccess()
+          } else {
+            vm.successStatus = false
+            vm.$nuxt.$emit('messsage:push', response.data.message, 'danger')
+          }
+        })
     },
     // 切換登入或註冊畫面
     changeSign (change) {
@@ -366,15 +377,11 @@ export default {
     },
     // 註冊
     signup (psw, dbpsw) {
-      this.$validator.validateAll().then(result => {
-        if (psw === dbpsw) {
-          if (result) {
-            this.message = '尚未開放註冊'
-          }
-        } else {
-          this.message = '請確認密碼輸入是否一樣'
-        }
-      })
+      if (psw === dbpsw) {        
+        this.message = '尚未開放註冊'        
+      } else {
+        this.message = '請確認密碼輸入是否一樣'
+      }
     },
     // 檢查登入狀態
     issuccess () {
@@ -391,6 +398,7 @@ export default {
     },
     // 登出
     signout () {
+      this.dropdownUserMenu = false
       const vm = this
       const url = `${process.env.APIPATH}/logout`
       vm.$axios.post(url).then(response => {
@@ -419,27 +427,30 @@ export default {
     },
     // 導頁到管理商品
     goProducts () {
-      this.$router.push('back/Products')
+      this.dropdownUserMenu = false
+      this.$router.push('/back/Products')
     },
     goUserOrders () {
-      this.$router.push('front/userorders')
+      this.dropdownUserMenu = false
+      this.$router.push('/front/userorders')
       this.$nuxt.$emit('refreshTable')
     },
+    goCoupons () {
+      this.dropdownUserMenu = false
+      this.$router.push('/back/Coupons')
+    },
     // goCheckOuter () {
-    //   // $('#cartModal').modal('hide')
     //   this.$router.push('/checkout').catch(err => (err))
     // },
     goDetail (id) {
-      $('#favoritetModal').modal('hide')
-      $('#cartModal').modal('hide')
       this.$router.push(`/detail/${id}`)
       this.$nuxt.$emit('refreshDetail')
     },
-    // goIndex () {
-    //   // 購物去按鈕
-    //   this.$router.push('/').catch(err => (err))
-    //   this.$bus.$emit('refresh')
-    // },    
+    goIndex () {
+      // 購物去按鈕
+      this.$router.push('/')
+      this.$nuxt.$emit('refresh')
+    },    
     // goDescription () {
     //   this.$router.push(`/Description`).catch(err => (err))
     // },
@@ -449,6 +460,9 @@ export default {
     rightOption(val){
       // console.log(val)
       this.$store.commit('SETOPTIONSHOW', val)
+    },
+    menuBtn(){
+      this.menuBox = !this.menuBox
     }
   },
   computed: {
@@ -458,25 +472,12 @@ export default {
   },
   created () {
     // console.log(this)
-    this.getCart()  
-    this.issuccess()
+    this.getCart()      
+    if(process.client || this.$store.state.cookie){
+      console.log("cookie", this.$store.state.cookie)
+      this.issuccess()
+    }
     this.getfavorite()
-
-    // $(function () {
-    //   $('.menuButton > a').click(function (e) {
-    //     e.preventDefault()
-    //     $('.menuButton > a').toggleClass('change')
-    //     $('body').toggleClass('show-menu')
-    //     $('#close-menu').toggleClass('close-menu')
-    //   })
-    //   // 選單以外區域點選後關閉選單
-    //   $('#close-menu').click(function (e) {
-    //     e.preventDefault()
-    //     $('body').removeClass('show-menu')
-    //     $('#close-menu').removeClass('close-menu')
-    //     $('.menuButton > a').removeClass('change')
-    //   })
-    // })
   },
   mounted () {
     // 從frontNavbar傳來
@@ -509,8 +510,7 @@ nav{
     width: 80%;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-   
+    align-items: center;   
   }
   .nav-box{
     // width: 50%;
@@ -539,6 +539,8 @@ nav{
     li{
       text-align: center;
       padding: 0.5rem 0rem;
+      display: flex;
+      align-items: center;
     }
   }
 }
@@ -646,7 +648,7 @@ nav{
     }
   }
   .login-box{
-    width: 500px;
+    max-width: 500px;
     // height: 340px;
     background-color: #fff;
     margin: 2rem auto;
@@ -789,9 +791,9 @@ nav{
   // .d-search {
   //   display: block !important;
   // }
-  .menu {
-    display: none !important;
-  }
+  // .menu {
+  //   display: none !important;
+  // }
 }
 @include pc-top() {
   .m-logo {
@@ -806,9 +808,9 @@ nav{
   // .d-search {
   //   display: block !important;
   // }
-  .menu {
-    display: none !important;
-  }
+  // .menu {
+  //   display: none !important;
+  // }
 }
 @include pc() {
   .m-logo {
@@ -827,12 +829,18 @@ nav{
   // .d-search {
   //   display: none !important;
   // }
-  .menu {
-    display: none !important;
-  }
+  // .menu {
+  //   display: none !important;
+  // }
 }
 
 @include pad() {
+  // .navbar{
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   overflow: scroll;
+  // }
   .m-logo {
     margin-top: 5px;
     display: block !important;
@@ -849,30 +857,41 @@ nav{
   .d-menu {
     display: none !important;
   }
-  .menu {
-    display: block !important;
-  }
-
-  .header {    
+  // .menu {
+  //   display: block !important;
+  // }
+  .header {   
+    position: fixed;
+    width: 100%;
+    background-color: #003D79;
+    display: flex;
+    align-items: center;
     //漢堡選單
     .menuButton {
       display: block;
     }
-
+    .menu-box-m{
+      position: absolute;
+      top: 3rem;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+    }
     .menu {
-      display: block;
-      max-height: 0;
+      // display: block;
+      // max-height: 0;
       min-width: 100%;
       overflow: hidden;
       position: absolute;
-      top: 58px;
-      right: 0;
-      left: 0;
+      top: -0.7rem;
+      right: 0;     
       background: rgba(0, 0, 0, 0.75);
-
+      list-style-type: none;
       li {
         float: none;
         border-bottom: dashed #bbc4c7 1px;
+        text-align: center;
         &:hover {
           background: #999;
           transition: all 0.7s;
@@ -899,8 +918,12 @@ nav{
         }
       }
     }
+    .icon-box{
+      margin: 0;    
+      width: 14rem;
+    }
   }
-
+  
   // 顯示下拉選單
   .show-menu .menu {
     max-height: 500px;
@@ -918,10 +941,9 @@ nav{
 .menuButton {
   display: none;
   float: right;
-
   a {
-    width: 50px;
-    height: 50px;
+    // width: 50px;
+    // height: 50px;
     padding: 22.5px 5px;
     display: block;
 
@@ -984,6 +1006,20 @@ nav{
 @include iphone5() {
   .icon-rwd-margin{
     margin-right: 0px;
+  }
+  .header{
+    .logo-box{
+      width: 15%;
+    }
+    .menu-box{
+      width: 70%;
+      ul{
+        padding-left: 0;
+      }
+    }
+    .menuButton{
+      width: 15%;
+    }
   }
 }
 </style>

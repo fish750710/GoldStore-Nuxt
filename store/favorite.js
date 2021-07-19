@@ -22,9 +22,11 @@ export const mutations = {
 export const actions = {
     getfavorite(context) {
         // console.log(context)
-        let myfavorite
+        let myfavorite = []
         if (process.browser) {             
-            myfavorite = JSON.parse(localStorage.getItem('favorite') || [])
+            if (localStorage.getItem('favorite')){
+                myfavorite = JSON.parse(localStorage.getItem('favorite'))
+            }
         }
         // console.log("myfavorite", myfavorite)
         context.dispatch('products/getProducts', null, { root: true })

@@ -1,6 +1,7 @@
 export const state = () => ({
     optionShow: '',
     isLoading: false,
+    cookie: '',
 })
 export const mutations = {
     SETOPTIONSHOW(state, val){
@@ -8,6 +9,9 @@ export const mutations = {
     },
     LOADING(state, status) {
         state.isLoading = status
+    },
+    SETCOOKIE(state, cookie){
+        state.cookie = cookie
     },
     ARRAYLTOH(state, item) {
         if (item === 'lowPrice') {

@@ -87,6 +87,7 @@ export default {
   build: {
     publicPath: 'https://fish750710.github.io/GoldStore-Nuxt-static',
     analyze: true,
+    transpile: ["vee-validate/dist/rules"],
   },
   buildDir: 'dist',
   // // 覆蓋預設router

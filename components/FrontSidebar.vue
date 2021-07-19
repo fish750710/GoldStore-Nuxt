@@ -3,13 +3,13 @@
       <div class="m-sidebar-none">
         <div class="">
           <ul class="menu-ul">
-            <li class="my-2 "><a href="#" class="menuSidebar" :class="[ activeitem ==='APPLE' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('APPLE')" >
+            <li class="my-2 "><a href="javascript:;" class="menuSidebar" :class="[ activeitem ==='APPLE' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('APPLE')" >
               <span >APPLE</span></a></li>
-            <li class="my-2 "><a href="#" class="menuSidebar" :class="[ activeitem ==='ASUS' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('ASUS')" >
+            <li class="my-2 "><a href="javascript:;" class="menuSidebar" :class="[ activeitem ==='ASUS' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('ASUS')" >
               <span >ASUS</span></a></li>
-            <li class="my-2 "><a href="#" class="menuSidebar" :class="[ activeitem ==='HTC' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('HTC')" >
+            <li class="my-2 "><a href="javascript:;" class="menuSidebar" :class="[ activeitem ==='HTC' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('HTC')" >
               <span >HTC</span></a></li>
-            <li class="my-2 "><a href="#" class="menuSidebar" :class="[ activeitem ==='小米' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('小米')" >
+            <li class="my-2 "><a href="javascript:;" class="menuSidebar" :class="[ activeitem ==='小米' ? ['text-white','bg-dark'] :'' ]" @click.prevent="badgeSearch('小米')" >
               <span >小米</span></a></li>
           </ul>
         </div>

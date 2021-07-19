@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="products-box">
     <!-- <loading :active.sync="isLoading"></loading> -->
-    <div class="text-right mt-3">
-      <button class="btn btn-primary text-black" @click="openModel(true)">建立新的產品</button>
+    <div class="">
+      <button class="" @click="openModel(true)">建立新的產品</button>
     </div>
-    <table class="table mt-4 table-rwd">
+    <table class="">
       <thead>
         <th width="120">分類</th>
         <th width="220">ID</th>
@@ -27,12 +27,12 @@
               <span v-else>未啟用</span>
             </no-ssr>
           </td>
-          <td data-th="編輯" class="btn-group">
+          <td data-th="編輯" class="">
             <button
-              class="btn btn-outline-primary btn-sm text-black"
+              class=""
               @click="openModel(false, item)"
             >編輯</button>
-            <button class="btn btn-outline-danger btn-sm" @click="delModel(item)">刪除</button>
+            <button class="btn-secondary" @click="delModel(item)">刪除</button>
           </td>
         </tr>
       </tbody>
@@ -40,23 +40,20 @@
     <!-- 分頁 -->
     <Pagin @postPage="getProducts" :getpagin="pagination"></Pagin>
     <!-- Modal -->
-    <div
-      class="modal fade modal-rwd"
-      id="productModal" v-show="productModal"
-    >
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content border-0">
-          <div class="modal-header bg-dark text-white">
-            <h5 class="modal-title text-white" id="exampleModalLabel">
+    <div class="modal-box" v-show="productModalShow">
+      <div class="modal" id="productModal">      
+        <div class="modal-content">
+          <div class="modal-header">
+            <title class="">
               <span>新增產品</span>
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+            </title>
+            <button type="button" class="close" @click="productModalShow=false">
+              <span>&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-4">
+              <div class="img-box">
                 <div class="form-group">
                   <label for="image">輸入圖片網址</label>
                   <input
@@ -89,7 +86,7 @@
                   alt
                 />
               </div>
-              <div class="col-sm-12 col-md-12 col-lg-8">
+              <div class="info-box">
                 <div class="form-group">
                   <label for="title">標題</label>
                   <input
@@ -218,34 +215,33 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
+            <button type="button" class="btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="" @click="updateProduct">確認</button>
           </div>
-        </div>
+        </div>        
       </div>
     </div>
-    <!-- 刪除 -->
-    <div
-      class="modal fade"
-      id="delProductModal" v-show="delProductModalSHow"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content border-0">
-          <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title" id="exampleModalLabel">
-              <span>刪除產品</span>
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            是否刪除
-            <strong class="text-danger">{{ tempProduct.title }}</strong> 商品(刪除後將無法恢復)。
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" @click="delProduct">確認刪除</button>
+    <div class="modal-box" v-show="delProductModalSHow">
+      <!-- 刪除 -->
+      <div class="modal fade" id="delProductModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <title class="">
+                <span>刪除產品</span>
+              </title>
+              <button type="button" class="close" @click="delProductModalSHow=false">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              是否刪除
+              <strong class="text-danger">{{ tempProduct.title }}</strong> 商品(刪除後將無法恢復)。
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn-secondary" @click="delProductModalSHow=false">取消</button>
+              <button type="button" class="" @click="delProduct">確認刪除</button>
+            </div>
           </div>
         </div>
       </div>
@@ -254,7 +250,6 @@
 </template>
 
 <script>
-// import $ from 'jquery'
 import Pagin from '@/components/Pagination.vue'
 
 export default {
@@ -289,16 +284,16 @@ export default {
       })
     },
     openModel (isNew, item) {
+      this.productModalShow = true
       if (isNew) {
         // 如果是新增產品
         this.tempProduct = {}
-        this.isNew = true
+        this.isNew = true        
       } else {
         // 不是新增產品
         this.tempProduct = Object.assign({}, item) // 避免物件傳參考特性影響，先將item資料傳送到空物件再給tempProduct用
         this.isNew = false
       }
-      // $('#productModal').modal('show')
     },
     delProduct () {
       // 刪除
@@ -307,7 +302,6 @@ export default {
       this.$axios.delete(api).then(response => {
         if (response.data.success) {
           // 已刪除產品
-          // $('#delProductModal').modal('hide')
           vm.getProducts() // 重新取得畫面資料
           this.$nuxt.$emit('messsage:push', response.data.message, 'success')
         } else {
@@ -319,7 +313,7 @@ export default {
     delModel (item) {
       const vm = this
       vm.tempProduct = item // 抓取item資料
-      // $('#delProductModal').modal('show')
+      this.delProductModalSHow = true
     },
     updateProduct () {
       let api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product` // https://vue-course-api.hexschool.io/api/hans/products
@@ -333,12 +327,10 @@ export default {
       // 將 tempProduct 的欄位資料放到data物件裡送出
       this.$axios[httpMethod](api, { data: vm.tempProduct }).then(response => {
         if (response.data.success) {
-          // $('#productModal').modal('hide')
           this.$nuxt.$emit('messsage:push', response.data.message, 'success')
           vm.getProducts()
         } else {
           // 新增失敗
-          // $('#productModal').modal('hide')
           this.$nuxt.$emit('messsage:push', response.data.message, 'danger')
           vm.getProducts()
         }
@@ -370,7 +362,7 @@ export default {
             this.$nuxt.$emit('messsage:push', response.data.message, 'danger')
           }
         })
-    }
+    },
   },
   created () {
     // hook 用來觸發getProducts事件
@@ -381,7 +373,150 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.products-box{
+  position: relative;
+  margin-top: 50px;
+  padding: 1rem;
+}
+.modal-box{
+  position: absolute;
+  top: 0%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color:rgba(0,0,0,0.5);
+}
+#productModal{
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  background: #fff;
+  max-width: 500px;
+  // height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modal-content{
+    width: 100%;
+    height: 100%;
+    .modal-header{
+      background: #003D79;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      title{
+        font-size: 24px;
+        display: block;
+      }
+      button{
+        width: 2rem;
+        height: 2rem;
+        font-size: 24px;
+      }
+    }
+    .modal-body{
+      padding: 0.5rem;
+      .row{
+        display: flex;
+        justify-content: center;
+        // align-items: center;
+        .img-box{
+          width: 45%;
+        }
+        .info-box{
+          width: 55%;
+        }
+        .form-group{
+          margin: 1rem 0;
+        }
+      }
+    }
+    .modal-footer{
+      padding: 0.5rem;
+    }
+  }
+  img{
+    width: 200px;
+    height: 200px;
+  }
+}
+#delProductModal{
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  background: #fff;
+  max-width: 500px;
+  // height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .modal-content{
+    width: 100%;
+    height: 100%;
+    .modal-header{
+      background: #003D79;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      title{
+        font-size: 24px;
+        display: block;
+      }
+      button{
+        width: 2rem;
+        height: 2rem;
+        font-size: 24px;
+      }
+    }
+    .modal-body{
+      padding: 0.5rem;
+      .row{
+        display: flex;
+        justify-content: center;
+        // align-items: center;
+        .img-box{
+          width: 45%;
+        }
+        .info-box{
+          width: 55%;
+        }
+        .form-group{
+          margin: 1rem 0;
+        }
+      }
+    }
+    .modal-footer{
+      padding: 0.5rem;
+    }
+  }
+}
+button {
+  margin-top: 10px;
+  background-color: $primary;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: $primaryLight;
+  }
+}
+.btn-secondary {
+  background-color: $secondary;
+  &:hover {
+    cursor: pointer;
+    background-color: $info;
+  }
+}
+.text-success{
+  color:green;
+}
+.text-danger{
+  color: red;
+}
 @include pad() {
   .img-rwd {
     width: 150px;
@@ -390,6 +525,50 @@ export default {
 @include m568() {
   .img-rwd {
     width: 100px;
+  }
+  .products-box{
+    margin-top: 0;
+  }
+  #productModal{
+    position: fixed;
+    top: 3rem;
+    left: 0;
+    background: #fff;
+    width: 100vw;
+    height: 94vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .modal-content{
+      .modal-body{
+        padding: 0.5rem;
+        .row{
+          display: block;
+          // display: flex;
+          // justify-content: center;
+          // align-items: center;
+          .img-box{
+            width: 100%;
+          }
+          .info-box{
+            width: 100%;
+          }
+          .form-group{
+            margin: 1rem 0;
+          }
+        }
+      }
+    }
+  }
+  #delProductModal{
+    position: fixed;
+    top: 35%;
+    left: 0;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 

@@ -166,7 +166,6 @@ export default {
     // 加入購物車(新增前先判斷購物車是否有重複資料，如有先刪除後新增)
     addtoCartMerge (id, qty = 1) {
       this.$store.dispatch('carts/addtoCartMerge', { id, qty })
-      // $('#productModal').modal('hide')
     },
 
     // 加入我的最愛
@@ -379,6 +378,15 @@ button {
 @include m568() {
   .swiper-like-rwd {
     display: none;
+  }
+  .container{
+    .row{
+      flex-direction: column;
+      align-items: center;
+      .product-box{
+        width: 95vw;
+      }
+    }
   }
 }
 </style>

@@ -19,14 +19,14 @@
                 <tbody>
                   <tr v-for="item in myfavorite" :key="item.id">
                     <td width="100">
-                      <a href="#" @click="goDetail(item.id)">
+                      <a href="javascript:;" @click="goDetail(item.id)">
                         <img :src="item.imageUrl" class="" />
                       </a>
                     </td>
                     <td class="">
                       <thead>
                         <th class="">
-                          <a href="#" class="" @click="goDetail(item.id)">{{ item.title }}</a>
+                          <a href="javascript:;" class="" @click="goDetail(item.id)">{{ item.title }}</a>
                         </th>
                       </thead>
                       <tbody>
@@ -61,14 +61,14 @@
                 <tbody>
                   <tr v-for="item in cart.carts" :key="item.id">
                     <td class width="100">
-                      <a href="#" @click="goDetail(item.product.id)">
+                      <a href="javascript:;" @click="goDetail(item.product.id)">
                         <img :src="item.product.imageUrl" class="" />
                       </a>
                     </td>
                     <td class="">
                       <thead>
                         <th class="">
-                          <a href="#" class="" @click="goDetail(item.product.id)">{{ item.product.title }}</a>
+                          <a href="javascript:;" class="" @click="goDetail(item.product.id)">{{ item.product.title }}</a>
                         </th>
                       </thead>
                       <tbody>
@@ -283,6 +283,13 @@ button {
   &:hover {
     cursor: pointer;
     background-color: $primaryLight;
+  }
+}
+@include pad(){
+  .box{
+    .option{
+      width: 100%;
+    }
   }
 }
 </style>

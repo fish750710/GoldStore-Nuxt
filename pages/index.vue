@@ -174,6 +174,10 @@ export default {
     this.$nuxt.$emit('change')
   },
   created () {
+    // const myCookie = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
+    // console.log(document)
+    // this.$http.defaults.headers.common['Authorization'] = `${myCookie}`
+
     // console.log(this)
     // if (this.$route.params.Str === undefined) {
     //   this.getProducts()
@@ -203,7 +207,7 @@ export default {
   background-repeat: no-repeat;
   background-color: #fff;
   background-position: center;
-  // background-size: cover;
+  background-size: 0 0/100%;
   width: 100vw;
   height: 500px;
   right: 0px;
@@ -499,13 +503,31 @@ export default {
     }
   }
   .benner-img1 {
-    height: 350px;
+    width: 100vw;
+    height: 15rem;
+    background-size: contain;
+    .swiper-title{
+      left: calc(50% - 42.5%);
+      bottom: 0;
+    }
   }
   .benner-img2 {
-    height: 350px;
+    width: 100vw;
+    height: 15rem;
+    background-size: contain;
+    .swiper-title{
+      left: calc(50% - 42.5%);
+      bottom: 0;
+    }
   }
   .benner-img3 {
-    height: 350px;
+    width: 100vw;
+    height: 15rem;
+    // background-size: contain;
+    .swiper-title{
+      left: calc(50% - 42.5%);
+      bottom: 0;
+    }
   }
 }
 @include m568() {
