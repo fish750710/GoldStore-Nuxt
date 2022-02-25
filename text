@@ -1,0 +1,11 @@
+1.建一個資料夾後 cd 資料夾名  npx create-nuxt-app
+
+npm install --save-dev pug@2.0.3 pug-plain-loader coffeescript coffee-loader node-sass sass-loader+
+
+npm install jquery --save
+npm install --save-dev node-sass sass-loader
+npm install --save router 
+
+npm install --save axios  
+npm install @nuxtjs/axios
+npm install --save vue-axios
